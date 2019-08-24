@@ -1,5 +1,12 @@
 #include "PacketManager.h"
 
+PacketManager::PacketManager(uchar* target){
+    target_ip[0] = target[0];
+    target_ip[1] = target[1];
+    target_ip[2] = target[2];
+    target_ip[3] = target[3];
+}
+
 bool PacketManager::MakePacket(int type, int cnt)
 {
 	switch (type)
@@ -22,9 +29,6 @@ bool PacketManager::MakePacket(int type, int cnt)
 
 void PacketManager::MakeIPArray(int cnt)
 {
-	// uchar* IPArray[cnt];
-	// 자료형 변수[개수]
-	// 변수 = new 자료형[개수]
 }
 
 vector<uchar*> PacketManager::GetPacketArray()

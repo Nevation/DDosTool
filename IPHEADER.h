@@ -7,8 +7,6 @@ public:
 	IPHeader();
 	~IPHeader();
 	void MakeIpPacket(uchar* packet);
-	void IpInit();
-	void setIpHeader(struct iphdr iphdr);
 	uchar* IpToPacket();
 protected:
 	uchar Version_length;

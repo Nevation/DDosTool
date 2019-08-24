@@ -1,16 +1,17 @@
 #pragma once
 #include "Header.h"
-#include "UDP.h"
+#include "UDPHeader.h"
 #include "ETHERNET.h"
 #include "IPHEADER.h"
 #include "PacketManager.h"
+
 struct DDoS {
 public:
 	DDoS();
-	DDoS(char* dev);
+    bool SetOption();
 	void ExecuteAttack();
 private:
-	char* Dev;
-	PacketManager manager;
+    string Dev;
+    PacketManager* manager;
 
 };
