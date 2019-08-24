@@ -8,6 +8,7 @@ int main() {
 	char dev[24];
 	scanf("%s", dev);
 	printf("%s\n", dev);
+	EthernetHeader eth;
 	return 0;
 	DDoS ddos(dev);
 	ddos.ExecuteAttack();

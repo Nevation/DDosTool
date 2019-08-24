@@ -8,14 +8,13 @@ EthernetHeader::~EthernetHeader()
 {
 }
 
-void EthernetHeader::MakeEthernetPacket(uchar* packet)
-{
-	memcpy(Dest, &packet[0], MACSIZE);
-	memcpy(Src, &packet[6], MACSIZE);
-	memcpy(Type, &packet[12], 2);
-}
-
 uchar* EthernetHeader::EthernetToPacket()
 {
 	return nullptr;
+}
+void EthernetHeader::setEthernet(uchar* dst, uchar* src) {
+	memcpy(Dest, &dst, MACSIZE);
+	memcpy(Src, &src, MACSIZE);
+	memset(&Type[0], '0x08', sizeof(Type));
+	memset(&Type[1], '0x00', sizeof(Type));
 }
