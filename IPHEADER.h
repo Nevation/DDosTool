@@ -8,6 +8,10 @@ public:
 	~IPHeader();
 	void MakeIpPacket(uchar* packet);
 	uchar* IpToPacket();
+
+	vector<uchar> MakeRandomIP();
+
+
 protected:
 	uchar Version_length;
 	uchar ToS;

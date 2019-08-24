@@ -1,4 +1,5 @@
 #include "IPHEADER.h"
+#include <ctime>
 
 IPHeader::IPHeader()
 {
@@ -26,4 +27,28 @@ void IPHeader::MakeIpPacket(uchar* packet)
 uchar* IPHeader::IpToPacket()
 {
 	return nullptr;
+}
+
+
+vector<uchar> IPHeader::MakeRandomIP() {
+	int cnt = 0;
+	vector<uchar> randomIP;
+	uchar tmp;
+
+
+	for (int i = 0; i < 4; i++) {
+		tmp = rand() % 255;
+		while (cnt == 0) {
+			
+			if (tmp != 10 && tmp != 172 && tmp != 192) {
+				cnt++;
+				break;
+			}
+			tmp = rand() % 255;
+		}
+		randomIP.push_back(tmp);
+	}
+
+	return randomIP;
+ 
 }
