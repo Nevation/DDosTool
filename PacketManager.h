@@ -8,11 +8,15 @@
 
 class PacketManager{
 public:
-    PacketManager() { }
+    PacketManager() {}
     PacketManager(uchar* target);
     ~PacketManager() {}
+
+    vector<uchar> MakeDummy();
+    uchar MakerandomPort();
+
+
     bool MakePacket(int type, int cnt);
-    void MakeIPArray(int cnt);
     vector<uchar*> GetPacketArray();
 private:
     vector<uchar*> packets;

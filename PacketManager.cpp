@@ -7,6 +7,37 @@ PacketManager::PacketManager(uchar* target){
     target_ip[3] = target[3];
 }
 
+vector<uchar> PacketManager::MakeDummy(){
+  vector<uchar> dummy;
+  uchar tmp;
+
+  for (int i = 0; i < 1440; i++) {
+    tmp = rand() % 255;
+    dummy.push_back(tmp);
+  }
+
+  return dummy;
+}
+
+vector<uchar> PacketManager::MakeDummy(){
+  vector<uchar> dummy;
+  uchar tmp;
+
+  for (int i = 0; i < 1440; i++) {
+    tmp = rand() % 255;
+    dummy.push_back(tmp);
+  }
+
+  return dummy;
+}
+
+uchar PacketManager::MakerandomPort(){
+  uchar tmp;
+  tmp = rand() * 65535
+  return tmp;
+}
+
+
 bool PacketManager::MakePacket(int type, int cnt)
 {
 	switch (type)
@@ -15,7 +46,6 @@ bool PacketManager::MakePacket(int type, int cnt)
 		for (int i = 0; i < cnt; i++) {
 			UDPHeader packet;
 
-            udp.push_back(packet);
 		}
 		break;
 	case TCP:
@@ -24,16 +54,4 @@ bool PacketManager::MakePacket(int type, int cnt)
 		break;
 	}
 	return false;
-}
-
-void PacketManager::MakeIPArray(int cnt)
-{
-}
-
-vector<uchar*> PacketManager::GetPacketArray()
-{
-	vector<uchar*> result;
-	for (int i = 0; i < udp.size(); i++) result.push_back(udp[i].ToPacket());
-
-	return result;
 }

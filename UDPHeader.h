@@ -8,7 +8,9 @@ public:
 	UDPHeader();
 	~UDPHeader();
 	void MakeUdpPacket(uchar* packet);
+	uchar MakeRandomPort();
 	uchar* ToPacket();
+
 protected:
 	uchar Sport[2];
 	uchar Dport[2];
