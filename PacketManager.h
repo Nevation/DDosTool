@@ -5,15 +5,18 @@
 #include "IPHEADER.h"
 #include "Header.h"
 
+
 class PacketManager{
 public:
     PacketManager() { }
     PacketManager(uchar* target);
     ~PacketManager() {}
-	bool MakePacket(int type, int cnt);
-	void MakeIPArray(int cnt);
+    bool MakePacket(int type, int cnt);
+    void MakeIPArray(int cnt);
     vector<uchar*> GetPacketArray();
 private:
-	vector<UDPHeader> udp;
+    vector<uchar*> packets;
+    vector<int> packets_size;
+    int packet_cnt;
     uchar target_ip[4];
 };

@@ -14,7 +14,7 @@ typedef unsigned char uchar;
 #define IPSIZE 4
 
 enum PacketType {
-	UDP = 0,
+    UDP = 1,
 	TCP,
 
 };

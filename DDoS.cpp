@@ -1,11 +1,23 @@
 #include "DDoS.h"
+#include "etc_function.h"
+
+DDoS::~DDoS(){
+    delete manager;
+    pcap_close(handle);
+}
 
 void DDoS::ExecuteAttack()
 {
 	
 }
 
+bool DDoS::Setting(){
+    char errbuf[PCAP_ERRBUF_SIZE];
+    handle = pcap_open_live(Dev.c_str(), BUFSIZ, 1, 1, errbuf);
+}
+
 bool DDoS::SetOption(){
+    /*
     string ip;
 
     printf("Enter Dev: ");
@@ -36,18 +48,20 @@ bool DDoS::SetOption(){
         return false;
     }
 
-    while(1){
-        PacketType type;
-        int cnt;
-        printf("1. UDP \t\t 2. TCP \t\t 3. HTTP\n");
-        printf("Enter Packet Type: ");
-        scanf("%d", &type);
-
-        printf("Packet Count: ");
-        scanf("%d", &cnt);
-
-        manager->MakePacket(type, cnt);
+    printf("-<protocol1> <count1> <size1> -<protocol2> <count2> <size2> ...\n");
+    printf("Enter Command: ");
+    string command;
+    char vue;
+    while(true){
+        vue = getchar();
+        cout << vue << endl;
+        if (vue == '\n') break;
+        else command += vue;
     }
-
+    vector<string> options = str_split(command, '-');
+    for (auto k: options){
+        cout << k << endl;
+    }
+    */
     return true;
 }

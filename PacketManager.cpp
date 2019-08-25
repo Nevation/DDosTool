@@ -15,8 +15,7 @@ bool PacketManager::MakePacket(int type, int cnt)
 		for (int i = 0; i < cnt; i++) {
 			UDPHeader packet;
 
-
-			udp.push_back(packet);
+            udp.push_back(packet);
 		}
 		break;
 	case TCP:

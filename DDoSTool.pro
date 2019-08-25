@@ -9,6 +9,7 @@ SOURCES += \
         IPHEADER.cpp \
         PacketManager.cpp \
         UDPHeader.cpp \
+        etc_function.cpp \
         main.cpp
 
 HEADERS += \
@@ -18,4 +19,5 @@ HEADERS += \
     Header.h \
     IPHEADER.h \
     PacketManager.h \
-    UDPHeader.h
+    UDPHeader.h \
+    etc_function.h
