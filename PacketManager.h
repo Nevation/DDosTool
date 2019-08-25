@@ -13,7 +13,7 @@ public:
     ~PacketManager() {}
 
     vector<uchar> MakeDummy();
-    uchar MakerandomPort();
+
 
 
     bool MakePacket(int type, int cnt);

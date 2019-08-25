@@ -8,14 +8,19 @@ EthernetHeader::~EthernetHeader()
 {
 }
 
-void EthernetHeader::MakeEthernetPacket(uchar* packet)
+void EthernetHeader::MakeEthernetPacket(uchar* targetMac)
 {
-	memcpy(Dest, &packet[0], MACSIZE);
-	memcpy(Src, &packet[6], MACSIZE);
-	memcpy(Type, &packet[12], 2);
+	memcpy(Dest, targetMac, MACSIZE);
+	memcpy(Src, /*attacker Mac*/, MACSIZE);
+	Type[0] = 0x08;
+	Type[1] = 0x00;
 }
 
 uchar* EthernetHeader::EthernetToPacket()
 {
-	return nullptr;
+	uchar* packet = new uchar[14];
+	memcpy(&packet[0], Dest, 6);
+	memcpy(&packet[6], Src, 6);
+	memcpy(&packet[12], Type, 2);
+	return packet;
 }
