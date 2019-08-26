@@ -20,26 +20,24 @@ enum PacketType {
 };
 
 
+struct cv_ether{
+    uchar targetmac[MACSIZE];
+};
 
-typedef struct{
-  // Ethernet Header
-  uchar targetMac[6];
+struct cv_iphd{
+    cv_ether ether;
+    uchar TotalLength[2];
+    uchar Identifier[2];
+    uchar Flags[2];
+    uchar Protocol;
+    uchar IP_checksum[2];
+    uchar DstIP[4];
+};
 
-  // IP header
-  uchar TotalLength[2];
-  uchar Identifier[2];
-  uchar Flags[2];
-  uchar Protocol;
-  uchar IP_checksum[2];
-  uchar DstIP[4];
-
-  //TCP Header
-
-
-  //UDP Header
-  uchar Sport[2];
-  uchar Dport[2];
-  uchar u_length[2];
-  uchar u_checksum[2];
-
-}changeValue;
+struct cv_udphd{
+    cv_iphd iphd;
+    uchar Sport[2];
+    uchar Dport[2];
+    uchar u_length[2];
+    uchar u_checksum[2];
+};

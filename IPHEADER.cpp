@@ -9,53 +9,53 @@ IPHeader::~IPHeader()
 {
 }
 
-void IPHeader::MakeIpPacket(chageValue cv)
-{
-	MakeEthernetPacket(cv->targetMac);
+void IPHeader::MakeIpPacket(cv_iphd iphd){
+    MakeEthernetPacket(iphd.ether);
 
-	Version_length = 0x45;
-	ToS = 0x00;
+    // js think don't need fix member value
+    // ex) Version_length, Tos, Flag?
 
-	memcpy(TotalLength, cv->TotalLength, 2);
-	memcpy(Identifier, cv->Identifier, 2);
+    Version_length = 0x45;
+    ToS = 0x00;
 
-	Flags[0] = 0x00; // or 0x4000
-	Flags[1] = 0x00;
+    memcpy(TotalLength, iphd.TotalLength, 2);
+    memcpy(Identifier, iphd.Identifier, 2);
 
-	TTL = 0xff;
 
-	Protocol = cv->Protocol; // UDP 0x11, TCP 0x06
+    Flags[0] = 0x00; // or 0x4000
+    Flags[1] = 0x00;
 
-	//IP checksum
+    TTL = 0xff;
 
-	memcpy(SrcIP, MakeRandomIP()/* attacker IP*/, IPSIZE);
-	memcpy(DstIP, cv->DstIP, IPSIZE);
+    Protocol = iphd.Protocol; // UDP 0x11, TCP 0x06
+
+
+    memcpy(SrcIP, MakeRandomIP().data(), IPSIZE);
+    memcpy(DstIP, iphd.DstIP, IPSIZE);
 }
 
-uchar* IPHeader::IpToPacket()
+vector<uchar> IPHeader::IpToPacket()
 {
-	uchar* packet = new uchar[20];
+    vector<uchar> packet;
 
-  packet[0] = 0x45;
-	packet[1] = 0x00;
-	memcpy(&packet[2], TotalLength, 2);
-	memcpy(&packet[4], Identifier, 2);
-	packet[6] = Flags[0]; // or 0x4000
-	packet[7] = Flags[1];
-	packet[8] = TTL;
-	packet[9] = Protocol;
+    packet = EthernetToPacket();
 
-	//checksum
+    packet.push_back(0x45);
+    packet.push_back(0x00);
+    for(int i=0; i < 2; i++) packet.push_back(TotalLength[i]);
+    for(int i=0; i < 4; i++) packet.push_back(Identifier[i]);
+    for(int i=0; i < 2; i++) packet.push_back(Flags[i]);
+    packet.push_back(TTL);
+    packet.push_back(Protocol);
 
-	memcpy(&packet[12], SrcIP, 4);
-	memcpy(&packet[16], DstIP, 4);
-	return packet;
+    // add check sum
+    // for(int i=0; i < 2; i++) packet.push_back();
+
+    for(int i=0; i < 4; i++) packet.push_back(SrcIP[i]);
+    for(int i=0; i < 4; i++) packet.push_back(DstIP[i]);
+
+    return packet;
 }
-
-
-
-
-
 
 
 vector<uchar> IPHeader::MakeRandomIP() {
@@ -65,18 +65,18 @@ vector<uchar> IPHeader::MakeRandomIP() {
 
 
 	for (int i = 0; i < 4; i++) {
-		tmp = rand() % 255;
+        tmp = rand() % 256;
 		while (cnt == 0) {
-
+			
 			if (tmp != 10 && tmp != 172 && tmp != 192) {
 				cnt++;
 				break;
 			}
-			tmp = rand() % 255;
+            tmp = rand() % 256;
 		}
 		randomIP.push_back(tmp);
 	}
 
 	return randomIP;
-
+ 
 }

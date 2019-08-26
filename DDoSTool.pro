@@ -10,7 +10,8 @@ SOURCES += \
         PacketManager.cpp \
         UDPHeader.cpp \
         etc_function.cpp \
-        main.cpp
+        main.cpp \
+        tcpheader.cpp
 
 HEADERS += \
     DDoS.h \
@@ -19,5 +20,6 @@ HEADERS += \
     Header.h \
     IPHEADER.h \
     PacketManager.h \
+    TCPHeader.h \
     UDPHeader.h \
     etc_function.h

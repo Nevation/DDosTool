@@ -5,8 +5,9 @@ class EthernetHeader {
 public:
 	EthernetHeader();
 	~EthernetHeader();
-	void MakeEthernetPacket(uchar* packet);
-	uchar* EthernetToPacket();
+    void MakeEthernetPacket(cv_ether ether);
+
+    vector<uchar> EthernetToPacket();
 protected:
 	uchar Dest[6];
 	uchar Src[6];

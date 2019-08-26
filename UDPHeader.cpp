@@ -8,38 +8,35 @@ UDPHeader::~UDPHeader()
 {
 }
 
-void UDPHeader::MakeUdpPacket(changeValue cv)
+
+void UDPHeader::MakeUdpPacket(cv_udphd udphd)
 {
-  MakeIpPacket(cv);
-	memcpy(Sport, MakerandomPort(), 2);
-	memcpy(Dport, MakerandomPort(), 2);
+    // we need to save dump value to member value
 
-	u_length[0] = 0x05; 	// 1400
-	u_length[1] = 0x78;
+    MakeIpPacket(udphd.iphd);
 
-	//UDP checksum
-}
-
-uchar* UDPHeader::ToPacket()
-{
-	uchar* packet = new uchar[8];
-
-	memcpy(&packet[0], Sport, 2);
-	memcpy(&packet[2], Dport, 2);
-	packet[4] = u_length[0];
-	packet[5] = u_length[1];
-
-	//UDP checksum
-
-	return packet;
+    memcpy(Sport, udphd.Sport, 2);
+    memcpy(Dport, udphd.Dport, 2);
+    memcpy(u_length, udphd.u_length, 2);
+    memcpy(u_checksum, udphd.u_checksum, 2);
 }
 
 vector<uchar> UDPHeader::MakerandomPort(){
-  vector<uchar> randomPort;
-	uchar tmp;
-	for(int i = 0 ; i < 2; i++){
-		tmp = rand() % 256;
-		randomPort.push_back(tmp);
-	}
-  return randomPort;
+  vector<uchar> rst;
+  rst.push_back(rand() * 256);
+  rst.push_back(rand() * 256);
+  return rst;
+}
+
+vector<uchar> UDPHeader::UdpToPacket()
+{
+    vector<uchar> packet = IpToPacket();
+
+    for(int i=0; i < 2; i++) packet.push_back(Sport[i]);
+    for(int i=0; i < 2; i++) packet.push_back(Dport[i]);
+    for(int i=0; i < 2; i++) packet.push_back(u_length[i]);
+
+    // add check sum
+
+    return packet;
 }

@@ -9,8 +9,14 @@
 struct DDoS {
 public:
     DDoS() {};
+    DDoS(string dev){
+        Dev = dev;
+    }
+    ~DDoS();
+    bool Setting();
     bool SetOption();
 	void ExecuteAttack();
+    void Attack(int start, int end);
 private:
     string Dev;
     pcap_t* handle;

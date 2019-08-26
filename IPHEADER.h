@@ -6,14 +6,17 @@ class IPHeader : public EthernetHeader {
 public:
 	IPHeader();
 	~IPHeader();
-	void MakeIpPacket(uchar* packet);
-	uchar* IpToPacket();
+
+    void MakeIpPacket(cv_iphd iphd);
+
+    vector<uchar> IpToPacket();
+
 	vector<uchar> MakeRandomIP();
 
 
 protected:
-	uchar Version_length;
-	uchar ToS;
+    uchar Version_length;
+    uchar ToS;
 	uchar TotalLength[2];
 	uchar Identifier[2];
 	uchar Flags[2];

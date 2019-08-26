@@ -7,10 +7,10 @@ class UDPHeader : public IPHeader {
 public:
 	UDPHeader();
 	~UDPHeader();
-	void MakeUdpPacket(uchar* packet);
-	uchar MakeRandomPort();
+    void SetUdp();
+    vector<uchar> MakerandomPort();
+    void MakeUdpPacket(cv_udphd udphd);
 	uchar* ToPacket();
-
 protected:
 	uchar Sport[2];
 	uchar Dport[2];

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "TCPHeader.h"
 #include "UDPHeader.h"
 #include "ETHERNET.h"
 #include "IPHEADER.h"
@@ -8,19 +8,16 @@
 
 class PacketManager{
 public:
-    PacketManager() {}
+    PacketManager() { }
     PacketManager(uchar* target);
-    ~PacketManager() {}
+    ~PacketManager();
 
     vector<uchar> MakeDummy();
-
-
-
     bool MakePacket(int type, int cnt);
-    vector<uchar*> GetPacketArray();
+    vector<vector<uchar>> GetPackets();
+    int GetPacketCnt();
 private:
-    vector<uchar*> packets;
-    vector<int> packets_size;
+    vector<vector<uchar>> packets;
     int packet_cnt;
     uchar target_ip[4];
 };
