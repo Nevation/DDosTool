@@ -33,7 +33,19 @@ void IPHeader::MakeIpPacket(cv_iphd iphd){
     memcpy(SrcIP, MakeRandomIP().data(), IPSIZE);
     memcpy(DstIP, iphd.DstIP, IPSIZE);
 }
-
+uint16_t IPHeader::IpCheckSum(vector<uchar> packet)
+{
+    uint8_t chksum=0;
+    int sum=0;
+    uint16_t buf[10];
+    memcpy(&buf[0], &packet[0],20);
+    for(int i=0; i<10;i++){
+        sum+=static_cast<int>(buf[i]);
+    }
+    chksum = (sum>>16) + (sum & 0xffff);
+    chksum = (chksum^0xffff);
+    return chksum;
+}
 vector<uchar> IPHeader::IpToPacket()
 {
     vector<uchar> packet;
@@ -48,11 +60,19 @@ vector<uchar> IPHeader::IpToPacket()
     packet.push_back(TTL);
     packet.push_back(Protocol);
 
+    // checksum init 0x0000
+    packet.push_back(0x00);
+    packet.push_back(0x00);
+
     // add check sum
-    // for(int i=0; i < 2; i++) packet.push_back();
+    //for(int i=0; i < 2; i++) packet.push_back(IP_checksum[i]);
 
     for(int i=0; i < 4; i++) packet.push_back(SrcIP[i]);
     for(int i=0; i < 4; i++) packet.push_back(DstIP[i]);
+    uint16_t chk1=IpCheckSum(packet)<<8;
+    uint16_t chk2=IpCheckSum(packet)>>8;
+    packet[12]=chk1;
+    packet[13]=chk2;
 
     return packet;
 }

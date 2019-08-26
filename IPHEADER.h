@@ -13,7 +13,7 @@ public:
 
 	vector<uchar> MakeRandomIP();
 
-
+    uint16_t IpCheckSum(vector<uchar> packet);
 protected:
     uchar Version_length;
     uchar ToS;
