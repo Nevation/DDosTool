@@ -1,5 +1,23 @@
 #include "TCPHeader.h"
 
+
+
+vector<uchar> TCPHeader::TcpToPacket(){
+    vector<uchar> packet = IpToPacket();
+    // add tcp packet;
+    return packet;
+}
+
+
+void TCPHeader::MakeTCPPacket(cv_tcphd tcphd){
+
+
+    MakeIpPacket(tcphd.iphd);
+
+    memcpy()
+}
+
+/*
 void TCPHeader::SetTcpheader(const uchar* packet){
 
     //packet += 14 + GetIpheaderLength();
@@ -17,10 +35,4 @@ void TCPHeader::SetTcpheader(const uchar* packet){
 uchar TCPHeader::GetTcpHeaderLength(){
     return ((LenRev & 0xf0) >> 4) * 4;
 }
-
-
-vector<uchar> TCPHeader::TcpToPacket(){
-    vector<uchar> packet = IpToPacket();
-    // add tcp packet;
-    return packet;
-}
+*/

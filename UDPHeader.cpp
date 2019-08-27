@@ -9,7 +9,7 @@ UDPHeader::~UDPHeader()
 }
 
 
-void UDPHeader::MakeUdpPacket(cv_udphd udphd)
+void UDPHeader::MakeUdpPacket(struct cv_udphd udphd)
 {
     // we need to save dump value to member value
 
