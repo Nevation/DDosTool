@@ -9,10 +9,8 @@ UDPHeader::~UDPHeader()
 }
 
 
-void UDPHeader::MakeUdpPacket(struct cv_udphd udphd)
+void UDPHeader::MakeUdpPacket(cv_udphd udphd)
 {
-    // we need to save dump value to member value
-
     MakeIpPacket(udphd.iphd);
 
     memcpy(Sport, udphd.Sport, 2);
@@ -38,5 +36,5 @@ vector<uchar> UDPHeader::UdpToPacket()
 
     // add check sum
 
-    return packet;
+    return MakeDummy(packet);
 }

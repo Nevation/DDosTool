@@ -11,7 +11,7 @@ SOURCES += \
         UDPHeader.cpp \
         etc_function.cpp \
         main.cpp \
-        tcpheader.cpp
+        TCPHeader.cpp
 
 HEADERS += \
     DDoS.h \

@@ -17,3 +17,15 @@ vector<string> str_split(string str, const char point){
 }
 
 
+
+
+vector<uchar> MakeDummy(vector<uchar> packet){
+    uchar tmp;
+
+    for (int i = packet.size(); i < 1500; i++) {
+        tmp = rand() % 256;
+        packet.push_back(tmp);
+    }
+
+    return packet;
+}
