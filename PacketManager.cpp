@@ -27,16 +27,50 @@ vector<uchar> PacketManager::MakeDummy(){
 bool PacketManager::MakePacket(int type, int cnt)
 {
     packet_cnt += cnt;
-	switch (type)
+    cv_ether ether;
+    ether.targetmac = {}//gateway mac
+
+    cv_iphd iph;
+    iph.ether = ether;
+    iph.TotalLength = { 0x05, 0xce };
+    iph.Identifier = { 0x00, 0x00 };
+    iph.Protocol = 0x00;
+    iph.IP_checksum = { 0x00, 0x00 };
+    iph.DstIP[0] = target_ip[0];
+    iph.DstIP[1] = target_ip[1];
+    iph.DstIP[2] = target_ip[2];
+    iph.DstIP[3] = target_ip[3];
+
+
+  switch (type)
 	{
 	case UDP:
+    cv_udphd udph;
+    udph.iphd = iph;
+    udph.DstPort = { 0x00, 0x50 };
+    udph.u_length = { 0x05, 0xba };
+    udph.u_checksum = { 0x00, 0x00 };
+
 		for (int i = 0; i < cnt; i++) {
             UDPHeader packet;
             // packet make function
+            packet.MakeUdpPacket(udph);
             packets.push_back(packet.UdpToPacket());
         }
 		break;
 	case TCP:
+    cv_tcphd tcph;
+    tcph.iphd = iph;
+    tcph.DstPort = { 0x00, 0x50 };
+    tcph.Sequence[4] = { 0x02, 0x02, 0x02, 0x02}; //random
+    tcph.Ack[4] = { 0x00, 0x00, 0x00, 0x01};
+    tcph.LenRev = 0x00; //--
+    tcph.Rev = 0x00;  //--
+    tcph.Window[2] = { 0x00, 0x00 };  //--
+    tcph.Checksum[2] = { 0x00, 0x00};
+    tcph.Point[2] = { 0x00, 0x00 };
+
+
         for (int i = 0; i < cnt; i++) {
             TCPHeader packet;
             // packet make function
