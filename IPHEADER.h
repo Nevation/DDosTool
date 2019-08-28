@@ -10,9 +10,8 @@ public:
     void MakeIpPacket(cv_iphd iphd);
 
     vector<uchar> IpToPacket();
-    u_short ip_sum_calc( u_short len_ip_header, u_short * buff );
-	vector<uchar> MakeRandomIP();
-    vector<uchar> IpCheckSum(vector<uchar> packet);
+    vector<uchar> MakeRandomIP();
+    uint16_t IpCheckSum(uchar* packet);
 
 protected:
     uchar Version_length;

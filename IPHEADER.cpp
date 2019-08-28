@@ -55,11 +55,11 @@ vector<uchar> IPHeader::IpToPacket()
     for(int i=0; i < 4; i++) packet.push_back(SrcIP[i]);
     for(int i=0; i < 4; i++) packet.push_back(DstIP[i]);
 
-    for(auto a : packet)
-        copy.push_back(a);
-
-    u_short check = ip_sum_calc(20, (u_short*)(&(copy.data())[14]));
-    memcpy(&packet[24], &check, 2);
+    uint16_t checksum = IpCheckSum(packet.data());
+    uchar a[2];
+    memcpy(a, &checksum, 4);
+    packet[24] = a[0];
+    packet[25] = a[1];
 
     return packet;
 }
@@ -88,37 +88,17 @@ vector<uchar> IPHeader::MakeRandomIP() {
 
 }
 
-vector<uchar> IPHeader::IpCheckSum(vector<uchar> packet)
+uint16_t IPHeader::IpCheckSum(uchar* packet)
 {
-    vector<uchar> result;
+    uint16_t check_sum = 0;
     int sum=0;
     uint16_t buf[10];
     memcpy(buf, &packet[14],20);
     for(int i=0; i<10;i++) sum+=static_cast<int>(buf[i]);
 
-    sum = (sum>>16) + (sum & 0xffff);
-    sum = (sum^0xffff);
-    memcpy(result.data(), &sum ,4);
-    return result;
+    check_sum = (sum>>16) + (sum & 0xffff);
+    check_sum = (check_sum^0xffff);
+
+    return check_sum;
 }
 
-u_short IPHeader::ip_sum_calc( u_short len_ip_header, u_short * buff )
-{
-    u_short word16;
-    u_int sum = 0;
-    u_short i;
-    // make 16 bit words out of every two adjacent 8 bit words in the packet
-    // and add them up
-    for( i = 0; i < len_ip_header; i = i+2 )
-    {
-        word16 = ( ( buff[i]<<8) & 0xFF00 )+( buff[i+1] & 0xFF );
-        sum = sum + (u_int) word16;
-    }
-    // take only 16 bits out of the 32 bit sum and add up the carries
-    while( sum >> 16 )
-        sum = ( sum & 0xFFFF ) + ( sum >> 16 );
-    // one's complement the result
-    sum = ~sum;
-
-    return ((u_short) sum);
-}
