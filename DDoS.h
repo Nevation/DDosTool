@@ -18,6 +18,7 @@ public:
 	void ExecuteAttack();
     void Attack(int start, int end);
 private:
+    vector<vector<uchar>> Packets;
     string Dev;
     pcap_t* handle;
     PacketManager* manager;

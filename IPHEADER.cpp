@@ -55,9 +55,8 @@ vector<uchar> IPHeader::IpToPacket()
     for(int i=0; i < 4; i++) packet.push_back(SrcIP[i]);
     for(int i=0; i < 4; i++) packet.push_back(DstIP[i]);
 
-    u_short check = ip_sum_calc(20, (u_short *)packet.data());
+    u_short check = ip_sum_calc(20, (u_short*)packet.data());
     memcpy(&packet[26], &check, 2);
-
     return packet;
 }
 
@@ -71,7 +70,7 @@ vector<uchar> IPHeader::MakeRandomIP() {
 	for (int i = 0; i < 4; i++) {
         tmp = rand() % 256;
 		while (cnt == 0) {
-
+			
 			if (tmp != 10 && tmp != 172 && tmp != 192) {
 				cnt++;
 				break;
@@ -82,7 +81,7 @@ vector<uchar> IPHeader::MakeRandomIP() {
 	}
 
 	return randomIP;
-
+ 
 }
 
 vector<uchar> IPHeader::IpCheckSum(vector<uchar> packet)
@@ -98,7 +97,6 @@ vector<uchar> IPHeader::IpCheckSum(vector<uchar> packet)
     memcpy(result.data(), &sum ,4);
     return result;
 }
-
 
 u_short IPHeader::ip_sum_calc( u_short len_ip_header, u_short * buff )
 {

@@ -33,7 +33,7 @@ vector<uchar> UDPHeader::UdpToPacket()
     for(int i=0; i < 2; i++) packet.push_back(Sport[i]);
     for(int i=0; i < 2; i++) packet.push_back(Dport[i]);
     for(int i=0; i < 2; i++) packet.push_back(u_length[i]);
-
+    for(int i=0; i < 2; i++) packet.push_back(0);
     // add check sum
 
     return MakeDummy(packet);

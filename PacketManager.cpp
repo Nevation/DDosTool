@@ -14,9 +14,11 @@ PacketManager::PacketManager(uchar* target){
 
 bool PacketManager::MakePacket(int type, int cnt)
 {
+    printf("MakePacket!\n");
     packet_cnt += cnt;
 
     cv_ether ether;
+    for (int i=0; i<6; i++) ether.targetmac[i] = 0xff;
     //ether.targetmac = {};//gateway mac
 
 
@@ -24,7 +26,6 @@ bool PacketManager::MakePacket(int type, int cnt)
     iph.ether = ether;
     iph.TotalLength[0] = 0x05; iph.TotalLength[1] = 0xce;
     iph.Identifier[0] = 0x00;  iph.Identifier[1] = 0x00;
-    iph.Protocol = 0x00;
     iph.IP_checksum[0] = 0x00; iph.IP_checksum[1] = 0x00;
     iph.DstIP[0] = target_ip[0]; iph.DstIP[1] = target_ip[1];
     iph.DstIP[2] = target_ip[2]; iph.DstIP[3] = target_ip[3];
@@ -32,6 +33,7 @@ bool PacketManager::MakePacket(int type, int cnt)
     switch (type)
     {
     case UDP:
+        iph.Protocol = 0x11;
         cv_udphd udph;
         udph.iphd = iph;
         udph.Dport[0] = 0x00;
@@ -46,6 +48,10 @@ bool PacketManager::MakePacket(int type, int cnt)
             UDPHeader packet;
             packet.MakeUdpPacket(udph);
             packets.push_back(packet.UdpToPacket());
+            for (int i=0;i<200; i++){
+               printf("0x%02x ", packets[0][i]);
+               if (i == 13 || i == 33) printf("\n");
+            }
         }
         break;
     case TCP:
@@ -73,6 +79,7 @@ bool PacketManager::MakePacket(int type, int cnt)
     default:
         break;
     }
+    printf("Complete Packet!\n");
     return false;
 }
 
