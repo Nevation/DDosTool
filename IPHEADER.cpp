@@ -56,7 +56,7 @@ vector<uchar> IPHeader::IpToPacket()
     for(int i=0; i < 4; i++) packet.push_back(DstIP[i]);
 
     u_short check = ip_sum_calc(20, (u_short *)packet.data());
-    memcpy(&packet[26], check, 2);
+    memcpy(&packet[26], &check, 2);
 
     return packet;
 }
