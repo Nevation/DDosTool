@@ -14,9 +14,8 @@ int main() {
     const int fork_cnt = 10;
 
     printf("Start Attack!\n");
-    DDoSTool.ExecuteAttack();
+    //DDoSTool.ExecuteAttack();
 
-    /*
     for (int i=0; i<fork_cnt; i++){
         pid_t pid = fork();
         int status;
@@ -24,7 +23,6 @@ int main() {
         if (pid != 0)
             wait(&status);
     }
-    */
 
     return 0;
 }

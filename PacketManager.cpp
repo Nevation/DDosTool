@@ -48,10 +48,12 @@ bool PacketManager::MakePacket(int type, int cnt)
             UDPHeader packet;
             packet.MakeUdpPacket(udph);
             packets.push_back(packet.UdpToPacket());
+            /*
             for (int i=0;i<200; i++){
                printf("0x%02x ", packets[0][i]);
                if (i == 13 || i == 33) printf("\n");
             }
+            */
         }
         break;
     case TCP:

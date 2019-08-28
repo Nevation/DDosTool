@@ -38,50 +38,52 @@ void IPHeader::MakeIpPacket(cv_iphd iphd){
 vector<uchar> IPHeader::IpToPacket()
 {
     vector<uchar> packet;
+    vector<uchar> copy;
 
     packet = EthernetToPacket();
 
     packet.push_back(0x45);
     packet.push_back(0x00);
     for(int i=0; i < 2; i++) packet.push_back(TotalLength[i]);
-    for(int i=0; i < 4; i++) packet.push_back(Identifier[i]);
+    for(int i=0; i < 2; i++) packet.push_back(Identifier[i]);
     for(int i=0; i < 2; i++) packet.push_back(Flags[i]);
     packet.push_back(TTL);
     packet.push_back(Protocol);
 
     // add check sum
-    for(int i=0; i < 2; i++) packet.push_back(0);
+    for(int i=0; i < 2; i++) packet.push_back(0x00);
 
     for(int i=0; i < 4; i++) packet.push_back(SrcIP[i]);
     for(int i=0; i < 4; i++) packet.push_back(DstIP[i]);
 
-    u_short check = ip_sum_calc(20, (u_short*)packet.data());
-    memcpy(&packet[26], &check, 2);
+    //u_short check = ip_sum_calc(20, (u_short*)(&(copy.data())[14]));
+    //memcpy(&packet[24], &check, 2);
+
     return packet;
 }
 
 
 vector<uchar> IPHeader::MakeRandomIP() {
-	int cnt = 0;
-	vector<uchar> randomIP;
-	uchar tmp;
+    int cnt = 0;
+    vector<uchar> randomIP;
+    uchar tmp;
 
 
-	for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         tmp = rand() % 256;
-		while (cnt == 0) {
-			
-			if (tmp != 10 && tmp != 172 && tmp != 192) {
-				cnt++;
-				break;
-			}
-            tmp = rand() % 256;
-		}
-		randomIP.push_back(tmp);
-	}
+        while (cnt == 0) {
 
-	return randomIP;
- 
+            if (tmp != 10 && tmp != 172 && tmp != 192) {
+                cnt++;
+                break;
+            }
+            tmp = rand() % 256;
+        }
+        randomIP.push_back(tmp);
+    }
+
+    return randomIP;
+
 }
 
 vector<uchar> IPHeader::IpCheckSum(vector<uchar> packet)
@@ -100,21 +102,21 @@ vector<uchar> IPHeader::IpCheckSum(vector<uchar> packet)
 
 u_short IPHeader::ip_sum_calc( u_short len_ip_header, u_short * buff )
 {
-        u_short word16;
-        u_int sum = 0;
-        u_short i;
-        // make 16 bit words out of every two adjacent 8 bit words in the packet
-        // and add them up
-        for( i = 0; i < len_ip_header; i = i+2 )
-        {
-                word16 = ( ( buff[i]<<8) & 0xFF00 )+( buff[i+1] & 0xFF );
-                sum = sum + (u_int) word16;
-        }
-        // take only 16 bits out of the 32 bit sum and add up the carries
-        while( sum >> 16 )
-                sum = ( sum & 0xFFFF ) + ( sum >> 16 );
-        // one's complement the result
-        sum = ~sum;
+    u_short word16;
+    u_int sum = 0;
+    u_short i;
+    // make 16 bit words out of every two adjacent 8 bit words in the packet
+    // and add them up
+    for( i = 0; i < len_ip_header; i = i+2 )
+    {
+        word16 = ( ( buff[i]<<8) & 0xFF00 )+( buff[i+1] & 0xFF );
+        sum = sum + (u_int) word16;
+    }
+    // take only 16 bits out of the 32 bit sum and add up the carries
+    while( sum >> 16 )
+        sum = ( sum & 0xFFFF ) + ( sum >> 16 );
+    // one's complement the result
+    sum = ~sum;
 
-        return ((u_short) sum);
+    return ((u_short) sum);
 }
