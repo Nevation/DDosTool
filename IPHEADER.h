@@ -12,7 +12,8 @@ public:
     vector<uchar> IpToPacket();
 
 	vector<uchar> MakeRandomIP();
-    vector<uchar> IpCheckSum(vector<uchar> packet);
+	u_short ip_sum_calc( u_short len_ip_header, u_short * buff );
+  vector<uchar> IpCheckSum(vector<uchar> packet);
 
 protected:
     uchar Version_length;
