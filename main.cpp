@@ -11,7 +11,7 @@ int main() {
     DDoS DDoSTool(inter.c_str());
     DDoSTool.Setting();
     DDoSTool.SetOption();
-    const int fork_cnt = 10;
+    const int fork_cnt = 1;
 
     printf("Start Attack!\n");
     //DDoSTool.ExecuteAttack();

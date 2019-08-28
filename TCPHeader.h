@@ -5,11 +5,12 @@
 
 class TCPHeader : public IPHeader {
 public:
-    TCPHeader();
-    ~TCPHeader();
+    TCPHeader() {}
+    ~TCPHeader() {}
     void SetTcpheader(const uchar* packet);
     uchar GetTcpHeaderLength();
     vector<uchar> TcpToPacket();
+    void MakeTcpPacket(cv_tcphd tcphd);
 protected:
     uchar SrcPort[2];
     uchar DstPort[2];

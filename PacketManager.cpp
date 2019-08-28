@@ -57,25 +57,34 @@ bool PacketManager::MakePacket(int type, int cnt)
         }
         break;
     case TCP:
-        /*
+        iph.Protocol = 0x06;
         cv_tcphd tcph;
         tcph.iphd = iph;
         tcph.Dport[0] = 0x00;
         tcph.Dport[0] = 0x50;
-        tcph.Sequence[4] = { 0x02, 0x02, 0x02, 0x02}; //random
-        tcph.Ack[4] = { 0x00, 0x00, 0x00, 0x01};
-        tcph.LenRev = 0x00; //--
-        tcph.Rev = 0x00;  //--
-        tcph.Window[2] = { 0x00, 0x00 };  //--
-        tcph.Checksum[2] = { 0x00, 0x00};
-        tcph.Point[2] = { 0x00, 0x00 };
+        tcph.Sequence[0] = 0x02;
+        tcph.Sequence[1] = 0x02;
+        tcph.Sequence[2] = 0x02;
+        tcph.Sequence[3] = 0x02; //random
+        tcph.Ack[0] = 0x00;
+        tcph.Ack[1] = 0x00;
+        tcph.Ack[2] = 0x00;
+        tcph.Ack[3] = 0x00;
+        tcph.LenRev = 0x80; //--
+        tcph.Rev = 0x02;  //--
+        tcph.Window[0] = 0x07;
+        tcph.Window[1] = 0x00;\
+        tcph.Checksum[0] = 0x00;
+        tcph.Checksum[1] = 0x00;
+        tcph.Point[0] = 0x00;
+        tcph.Point[1] = 0x00;
 
         for (int i = 0; i < cnt; i++) {
             TCPHeader packet;
+            packet.MakeTcpPacket(tcph);
             // packet make function
             packets.push_back(packet.TcpToPacket());
         }
-        */
 
         break;
     default:

@@ -11,9 +11,10 @@ UDPHeader::~UDPHeader()
 
 void UDPHeader::MakeUdpPacket(cv_udphd udphd)
 {
+    vector<uchar> arr = MakerandomPort();
     MakeIpPacket(udphd.iphd);
 
-    memcpy(Sport, udphd.Sport, 2);
+    memcpy(Sport, arr.data(), 2);
     memcpy(Dport, udphd.Dport, 2);
     memcpy(u_length, udphd.u_length, 2);
     memcpy(u_checksum, udphd.u_checksum, 2);

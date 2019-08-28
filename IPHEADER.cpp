@@ -52,12 +52,14 @@ vector<uchar> IPHeader::IpToPacket()
 
     // add check sum
     for(int i=0; i < 2; i++) packet.push_back(0x00);
-
     for(int i=0; i < 4; i++) packet.push_back(SrcIP[i]);
     for(int i=0; i < 4; i++) packet.push_back(DstIP[i]);
 
-    //u_short check = ip_sum_calc(20, (u_short*)(&(copy.data())[14]));
-    //memcpy(&packet[24], &check, 2);
+    for(auto a : packet)
+        copy.push_back(a);
+
+    u_short check = ip_sum_calc(20, (u_short*)(&(copy.data())[14]));
+    memcpy(&packet[24], &check, 2);
 
     return packet;
 }

@@ -13,6 +13,9 @@ SOURCES += \
         main.cpp \
         TCPHeader.cpp
 
+LIBS += -lpcap
+LIBS += -pthread
+
 HEADERS += \
     DDoS.h \
     DDoSTool.h \

@@ -17,11 +17,11 @@ void EthernetHeader::MakeEthernetPacket(cv_ether ether)
     // insert attacker mac
     //00:0c:29:ae:ac:39;
     Src[0] = 0x00;
-    Src[1] = 0x0c;
-    Src[2] = 0x29;
-    Src[3] = 0xae;
-    Src[4] = 0xac;
-    Src[5] = 0x39;
+    Src[1] = 0x1c;
+    Src[2] = 0x42;
+    Src[3] = 0x21;
+    Src[4] = 0x8f;
+    Src[5] = 0x5d;
 
 
     Type[0] = 0x08;
